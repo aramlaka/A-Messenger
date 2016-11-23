@@ -12,17 +12,14 @@ import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
 
-public class SignUp extends AppCompatActivity {
+public class SignUpActivity extends AppCompatActivity {
 
-    GoogleSignInOptions gso;
     RelativeLayout view;
     EditText nameEdit;
     EditText emailEdit;
@@ -34,11 +31,6 @@ public class SignUp extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
-
-        gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(getString(R.string.default_web_client_id))
-                .requestEmail()
-                .build();
 
         view = (RelativeLayout) findViewById(R.id.activity_sign_up);
         nameEdit = (EditText) view.findViewById(R.id.fullNameEditText);
@@ -58,7 +50,7 @@ public class SignUp extends AppCompatActivity {
                         && !TextUtils.isEmpty(name)) {
                     signUp(email, password, name);
                 } else {
-                    Toast.makeText(SignUp.this, "Invalid text. Please fill in all forms.",
+                    Toast.makeText(SignUpActivity.this, "Invalid text. Please fill in all forms.",
                             Toast.LENGTH_SHORT).show();
                 }
             }
@@ -72,18 +64,18 @@ public class SignUp extends AppCompatActivity {
         });
     }
 
-    public void signUp(final String email, final String password, final String displayName) {
-        Login.mAuth.createUserWithEmailAndPassword(email, password)
+    private void signUp(final String email, final String password, final String displayName) {
+        LoginActivity.mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         Log.d("debug", "createUserWithEmail:onComplete:" + task.isSuccessful());
 
                         if (!task.isSuccessful()) {
-                            Toast.makeText(SignUp.this, "Invalid login details",
+                            Toast.makeText(SignUpActivity.this, "Invalid login details",
                                     Toast.LENGTH_SHORT).show();
                         } else {
-                            FirebaseUser user = Login.mAuth.getCurrentUser();
+                            FirebaseUser user = LoginActivity.mAuth.getCurrentUser();
 
                             //Adds display name to user
                             UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
@@ -97,16 +89,16 @@ public class SignUp extends AppCompatActivity {
                                         public void onComplete(@NonNull Task<Void> task)
                                         {
                                             if(!task.isSuccessful()) {
-                                                Toast.makeText(SignUp.this, "Authorization Failed",
+                                                Toast.makeText(SignUpActivity.this, "Authorization Failed",
                                                         Toast.LENGTH_SHORT).show();
                                             }
                                         }
                                     });
 
-                            Intent intent = new Intent(SignUp.this, Login.class);
-                            intent.putExtra("SignUp", "login");
-                            intent.putExtra(Login.EMAIL_KEY, email);
-                            intent.putExtra(Login.PASSWORD_KEY, password);
+                            Intent intent = new Intent(SignUpActivity.this, LoginActivity.class);
+                            intent.putExtra("SignUpActivity", "login");
+                            intent.putExtra(LoginActivity.EMAIL_KEY, email);
+                            intent.putExtra(LoginActivity.PASSWORD_KEY, password);
                             startActivity(intent);
                         }
                     }
