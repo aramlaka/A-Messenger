@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -17,21 +18,20 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-public class Login extends AppCompatActivity implements View.OnClickListener {
+public class Login extends AppCompatActivity {
+
+    public static FirebaseAuth mAuth;
+    public static FirebaseAuth.AuthStateListener mAuthListener;
 
     public final static String USER_KEY = "user_key";
     public final static String EMAIL_KEY = "email_key";
     public final static String PASSWORD_KEY = "password_key";
-    private FirebaseAuth mAuth;
-    private FirebaseAuth.AuthStateListener mAuthListener;
+
     RelativeLayout view;
-    EditText emailText;
-    EditText passwordText;
-    Button login;
-    Button createAccount;
-    String user;
-    String email;
-    String password;
+    EditText emailEdit;
+    EditText passwordEdit;
+    Button loginButton;
+    Button createAccountButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,52 +46,43 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
 
                 if (user != null) {
                     Log.d("debug", "onAuthStateChanged:signed_in:" + user.getUid());
-                    startActivity(new Intent(Login.this, ChatRoom.class));
-                    finish();
+                    mAuth.signOut();
+                    //startActivity(new Intent(Login.this, ChatRoom.class));
+                    //finish();
                 } else {
                     Log.d("debug", "onAuthStateChanged:signed_out");
                 }
             }
         };
 
-        Bundle extras = getIntent().getExtras();
+        view = (RelativeLayout) findViewById(R.id.activity_login);
+        emailEdit = (EditText) view.findViewById(R.id.emailEditText);
+        passwordEdit = (EditText) view.findViewById(R.id.passwordEditText);
+        loginButton = (Button) view.findViewById(R.id.loginButton);
+        createAccountButton = (Button) view.findViewById(R.id.newAccountButton);
 
-        if (extras != null) {
-            if (extras.get(USER_KEY) != null ) {
-                user = extras.getString(USER_KEY);
-            }
+        loginButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String email = emailEdit.getText().toString();
+                String password = passwordEdit.getText().toString();
 
-            if (extras.get(EMAIL_KEY) != null ) {
-                email = extras.getString(EMAIL_KEY);
-
-                if (extras.get(PASSWORD_KEY) != null) {
-                    password = extras.getString(PASSWORD_KEY);
-
+                if (!TextUtils.isEmpty(email) && !TextUtils.isEmpty(password)) {
                     login(email, password);
+                } else {
+                    Toast.makeText(Login.this, "Invalid text. Please fill in all forms.",
+                            Toast.LENGTH_SHORT).show();
                 }
             }
-        }
+        });
 
-        view = (RelativeLayout) findViewById(R.id.activity_login);
-        emailText = (EditText) view.findViewById(R.id.emailEditText);
-        passwordText = (EditText) view.findViewById(R.id.passwordEditText);
-        login = (Button) view.findViewById(R.id.loginButton);
-        createAccount = (Button) view.findViewById(R.id.newAccountButton);
-
-        login.setOnClickListener(this);
-
-        createAccount.setOnClickListener(new View.OnClickListener() {
+        createAccountButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(Login.this, SignUp.class);
                 startActivity(intent);
             }
         });
-    }
-
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
     }
 
     @Override
@@ -108,36 +99,33 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
         }
     }
 
-    @Override
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.loginButton:
-                login(emailText.getText().toString(), passwordText.getText().toString());
-                break;
-        }
+    public void login(String email, String password) {
+        mAuth.signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        Log.d("debug", "signInWithEmail:onComplete:" + task.isSuccessful());
+
+                        if (!task.isSuccessful()) {
+                            Log.w("debug", "signInWithEmail:failed", task.getException());
+                            Toast.makeText(Login.this, "Sign in Failed!",
+                                    Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(Login.this, "Sign in Success!",
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
     }
 
-    public void login(String emailText, String passwordText) {
-        if (emailText == null || passwordText == null) {
-            Toast.makeText(Login.this, "Please fill in your login details.",
-                    Toast.LENGTH_SHORT).show();
-        } else {
-            mAuth.signInWithEmailAndPassword(emailText, passwordText)
-                    .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            Log.d("debug", "signInWithEmail:onComplete:" + task.isSuccessful());
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        if(intent.getStringExtra("SignUp").equals("login")){
+            String user = intent.getStringExtra(USER_KEY);
+            String password = intent.getStringExtra(PASSWORD_KEY);
 
-                            if (!task.isSuccessful()) {
-                                Log.w("debug", "signInWithEmail:failed", task.getException());
-                                Toast.makeText(Login.this, "Sign in Failed!",
-                                        Toast.LENGTH_SHORT).show();
-                            } else {
-                                Toast.makeText(Login.this, "Sign in Success!",
-                                        Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                    });
+            login(user, password);
         }
     }
 }

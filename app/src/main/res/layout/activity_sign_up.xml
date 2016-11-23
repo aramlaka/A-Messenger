@@ -42,7 +42,7 @@
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:inputType="textPersonName"
+        android:inputType="textEmailAddress"
         android:ems="10"
         android:layout_below="@+id/textView4"
         android:layout_alignParentLeft="true"
@@ -61,7 +61,7 @@
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:inputType="textPersonName"
+        android:inputType="textPassword"
         android:ems="10"
         android:layout_below="@+id/textView8"
         android:layout_alignParentLeft="true"
@@ -85,5 +85,4 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="22dp"
         android:id="@+id/cancelButton" />
-
 </RelativeLayout>
