@@ -1,27 +1,27 @@
 {
   "project_info": {
-    "project_number": "38322340173",
-    "firebase_url": "https://inclass11-65ba9.firebaseio.com",
-    "project_id": "inclass11-65ba9",
-    "storage_bucket": "inclass11-65ba9.appspot.com"
+    "project_number": "502208236049",
+    "firebase_url": "https://a-messenger.firebaseio.com",
+    "project_id": "a-messenger",
+    "storage_bucket": "a-messenger.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:38322340173:android:941496f2b303dd4a",
+        "mobilesdk_app_id": "1:502208236049:android:2c966040b7b18b84",
         "android_client_info": {
-          "package_name": "com.aramlaka.inclass11"
+          "package_name": "com.aramlaka.a_messenger"
         }
       },
       "oauth_client": [
         {
-          "client_id": "38322340173-shcna1kegh9ff9kvem86lpqfseat26li.apps.googleusercontent.com",
+          "client_id": "502208236049-ks1eotp0b4leh5ssb09vb9r94dd1vm1q.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyAYrv7rnmQdgwbcLwvg68KONZODoddO8_c"
+          "current_key": "AIzaSyCwvLzG0fUn5oawClri_KI23iZITQDSG78"
         }
       ],
       "services": {
