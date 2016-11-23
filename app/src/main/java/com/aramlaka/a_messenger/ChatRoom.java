@@ -79,7 +79,7 @@ public class ChatRoom extends AppCompatActivity implements View.OnClickListener,
             @Override
             public void onClick(View view) {
                 mAuth.signOut();
-                startActivity(new Intent(ChatRoom.this, Login.class));
+                startActivity(new Intent(ChatRoom.this, LoginActivity.class));
                 finish();
             }
         });
