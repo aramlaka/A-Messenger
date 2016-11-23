@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">InClass11</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="login">Login</string>
+    <string name="newAccount">Create New Account</string>
+    <string name="fullName">Full Name</string>
+    <string name="signUp">Sign Up</string>
+    <string name="cancel">Cancel</string>
+    <string name="chatHint">Type message to send...</string>
+</resources>

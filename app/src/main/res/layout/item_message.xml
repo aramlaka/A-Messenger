@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent" android:layout_height="wrap_content"
+    android:background="@drawable/border">
+
+    <ImageView
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        app:srcCompat="@drawable/delete"
+        android:id="@+id/deleteMessageButton"
+        android:layout_alignParentTop="true"
+        android:layout_toLeftOf="@+id/addCommentButton"
+        android:layout_toStartOf="@+id/addCommentButton"
+        android:layout_marginRight="15dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginTop="5dp" />
+
+    <ImageView
+        android:layout_width="25dp"
+        app:srcCompat="@drawable/comment"
+        android:id="@+id/addCommentButton"
+        android:layout_height="25dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="5dp"
+        android:layout_marginRight="7dp" />
+
+    <TextView
+        android:text="A message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/messageText"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="5dp"
+        android:layout_toLeftOf="@+id/deleteMessageButton"
+        android:layout_toStartOf="@+id/deleteMessageButton" />
+
+    <ImageView
+        app:srcCompat="@android:color/black"
+        android:layout_below="@+id/deleteMessageButton"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/messageImage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:maxHeight="300dp"
+        android:maxWidth="300dp" />
+
+    <TextView
+        android:text="A Name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/messageUser"
+        android:layout_marginTop="35dp"
+        android:layout_below="@+id/messageImage"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="5dp" />
+
+    <TextView
+        android:text="Something"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/dateText"
+        android:layout_alignBaseline="@+id/messageUser"
+        android:layout_alignBottom="@+id/messageUser"
+        android:layout_alignLeft="@+id/deleteMessageButton"
+        android:layout_alignStart="@+id/deleteMessageButton"
+        android:layout_marginRight="5dp" />
+
+
+</RelativeLayout>
